@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  spine-miner:
+    build: .
+    container_name: spine-miner-container
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+      - "8888:8888"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - WALLET=YOUR_BINANCE_BTC_ADDRESS
+      - WORKER=SpineDockerWorker
+      - COIN=BTC
+    volumes:
+      - ./config.json:/app/config.json

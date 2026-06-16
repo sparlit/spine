@@ -71,3 +71,35 @@ Enter your Binance BTC address when prompted.
 - **No Hashrate**: Ensure your internet is connected and no firewall is blocking port 3333.
 - **Heat**: Mining makes your device hot. If it's too hot, close the app.
 - **Low Earnings**: CPU mining is slow. Keeping the device plugged into power is recommended.
+
+
+## 6. GPU Mining (Laptop with NVIDIA)
+The enhanced version now supports NVIDIA GPU mining via CUDA.
+1. Run `setup_windows.ps1` again to download the CUDA plugin.
+2. Ensure you have the latest [NVIDIA Drivers](https://www.nvidia.com/Download/index.aspx) installed.
+3. The miner will automatically detect and use your RTX GPU.
+
+## 7. Web Dashboard
+You can monitor your mining progress from any device on your local network (like your phone).
+1. Start the web server: `python miner_web.py`
+2. On your phone, open your browser and go to: `http://[LAPTOP-IP-ADDRESS]:5000`
+   - To find your laptop IP, run `ipconfig` in CMD on Windows.
+
+## 8. Docker Support
+If you prefer running in a container:
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and ensure **NVIDIA Container Toolkit** is enabled.
+2. Edit `docker-compose.yml` to put your Binance address.
+3. Run: `docker-compose up -d`
+4. Access the dashboard at `http://localhost:5000`.
+
+## 9. Performance Tuning
+- **Huge Pages**: The miner works best if "Huge Pages" are enabled. On Windows, run the miner as Administrator once to let it configure this automatically.
+- **CUDA**: Using the GPU (RTX) alongside the CPU will significantly increase your hashrate.
+- **Payouts**: You can change the coin by adding `"coin": "DOGE"` or `"coin": "ETH"` to your `config.json`.
+
+## 10. Pro performance tips for Laptop
+To get the absolute best speed out of your RTX Laptop:
+- **Plug it in**: Always keep your laptop connected to the charger. Windows slows down the CPU and GPU when on battery.
+- **Cooling**: Elevate the back of the laptop or use a cooling pad. Heat causes "thermal throttling" which slows down the miner.
+- **Huge Pages**: If you see "Huge Pages: permission denied" in the logs, right-click your terminal (PowerShell) and select "Run as Administrator".
+- **GPU Driver**: Make sure you have the [Game Ready or Studio Driver](https://www.nvidia.com/download/index.aspx) from NVIDIA, not the generic Windows ones.

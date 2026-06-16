@@ -134,7 +134,7 @@ class MinerApp:
         layout = Layout()
         layout.split(Layout(name="header", size=3), Layout(name="body"), Layout(name="footer", size=3))
 
-        header_text = Text(" SPINE BITCOIN MINER ENHANCED ", style="bold white on blue", justify="center")
+        header_text = Text(" SPINE BITCOIN MINER v1.2 PRO ", style="bold white on blue", justify="center")
         layout["header"].update(Panel(header_text))
 
         layout["body"].split_row(Layout(name="stats", ratio=1), Layout(name="logs", ratio=2))

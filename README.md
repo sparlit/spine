@@ -1,13 +1,14 @@
-# Spine BTC Miner
-A professional Text User Interface (TUI) Bitcoin miner for Windows 11 and Android (Termux).
+# Spine BTC Miner PRO
+A professional Bitcoin mining suite for Windows 11 and Android (Termux).
+
+## Key Features
+- **GPU + CPU Mining**: Supports NVIDIA RTX GPUs via CUDA.
+- **Web Dashboard**: Monitor hashrate from your phone.
+- **TUI Interface**: Professional dashboard for CLI lovers.
+- **Docker Ready**: Easy deployment with one command.
+- **Multi-Coin**: Payout in BTC, DOGE, or SHIB.
 
 ## Quick Start
-1. Read **[GUIDE.md](GUIDE.md)** for setup instructions.
-2. Run the setup script for your platform.
-3. Run `python miner_tui.py` to start mining.
-
-## Features
-- Real-time hashrate monitoring.
-- Automated payout to Binance BTC wallet.
-- Optimized for CPU mining (RandomX).
-- Easy setup for both Mobile and Laptop.
+1. Read **[GUIDE.md](GUIDE.md)**.
+2. Run `powershell -File setup_windows.ps1` (Windows) or `./setup_termux.sh` (Android).
+3. Start mining: `python miner_tui.py`

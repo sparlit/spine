@@ -19,35 +19,48 @@ if (!(Test-Path bin)) {
 }
 
 # 4. Download XMRig
-$xmrigVersion = "6.21.0"
-$url = "https://github.com/xmrig/xmrig/releases/download/v$xmrigVersion/xmrig-$xmrigVersion-msvc-win64.zip"
+$xmrigVersion = "6.26.0"
+$url = "https://github.com/xmrig/xmrig/releases/download/v$xmrigVersion/xmrig-$xmrigVersion-windows-x64.zip"
 $zipFile = "bin\xmrig.zip"
 
 Write-Host "[*] Downloading XMRig v$xmrigVersion..."
-Invoke-WebRequest -Uri $url -OutFile $zipFile
+try {
+    Invoke-WebRequest -Uri $url -OutFile $zipFile -ErrorAction Stop
+} catch {
+    Write-Host "[!] Failed to download XMRig. Please check your internet connection or URL: $url" -ForegroundColor Red
+    return
+}
 
 # 5. Extract XMRig
 Write-Host "[*] Extracting XMRig..."
-Expand-Archive -Path $zipFile -DestinationPath bin\tmp -Force
-Move-Item bin\tmp\xmrig-$xmrigVersion\xmrig.exe bin\xmrig.exe -Force
-Remove-Item $zipFile
-Remove-Item bin\tmp -Recurse
+try {
+    Expand-Archive -Path $zipFile -DestinationPath bin\tmp -Force -ErrorAction Stop
+    Move-Item bin\tmp\xmrig-$xmrigVersion\xmrig.exe bin\xmrig.exe -Force -ErrorAction Stop
+    Remove-Item $zipFile -Force
+    Remove-Item bin\tmp -Recurse -Force
+} catch {
+    Write-Host "[!] Extraction failed. You might need to manually extract $zipFile to the bin folder." -ForegroundColor Red
+}
 
 # 6. Download CUDA Plugin (For NVIDIA GPUs)
 Write-Host "[*] Downloading XMRig CUDA Plugin..."
-$cudaVersion = "6.21.0"
-$cudaUrl = "https://github.com/xmrig/xmrig-cuda/releases/download/v$cudaVersion/xmrig-cuda-$cudaVersion-cuda12_0-win64.zip"
+$cudaVersion = "6.22.1"
+$cudaUrl = "https://github.com/xmrig/xmrig-cuda/releases/download/v$cudaVersion/xmrig-cuda-$cudaVersion-cuda12_9-win64.zip"
 $cudaZip = "bin\cuda.zip"
 
 try {
-    Invoke-WebRequest -Uri $cudaUrl -OutFile $cudaZip
+    Write-Host "[*] Downloading CUDA Plugin from $cudaUrl..."
+    Invoke-WebRequest -Uri $cudaUrl -OutFile $cudaZip -ErrorAction Stop
     Write-Host "[*] Extracting CUDA Plugin..."
-    Expand-Archive -Path $cudaZip -DestinationPath bin\tmp -Force
-    Move-Item bin\tmp\xmrig-cuda.dll bin\xmrig-cuda.dll -Force
-    Remove-Item $cudaZip
-    Remove-Item bin\tmp -Recurse
+    Expand-Archive -Path $cudaZip -DestinationPath bin\tmp_cuda -Force -ErrorAction Stop
+    Move-Item bin\tmp_cuda\xmrig-cuda.dll bin\xmrig-cuda.dll -Force -ErrorAction Stop
+    Remove-Item $cudaZip -Force
+    Remove-Item bin\tmp_cuda -Recurse -Force
+    Write-Host "[+] CUDA Plugin installed successfully!" -ForegroundColor Green
 } catch {
-    Write-Host "[!] Could not download CUDA plugin automatically. GPU mining might require manual setup." -ForegroundColor Yellow
+    Write-Host "[!] Could not download or install CUDA plugin automatically." -ForegroundColor Yellow
+    Write-Host "Error Details: $($_.Exception.Message)" -ForegroundColor Gray
+    Write-Host "GPU mining might require manual setup. Download from: https://github.com/xmrig/xmrig-cuda/releases" -ForegroundColor Gray
 }
 
 Write-Host "[+] Setup Complete!" -ForegroundColor Green

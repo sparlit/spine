@@ -58,3 +58,11 @@ The specialized GPU dashboard provides real-time hardware metrics.
 1. Run `python miner_web_gpu.py` in a separate terminal.
 2. Access it at `http://localhost:5001`.
 3. It displays GPU Temperature, Power consumption, and Fan speed alongside hashrates.
+
+## 8. Native Kanban Dashboard
+The Kanban dashboard (`miner_kanban.py`) is the ultimate monitoring tool for power users.
+- **Column 1: Inventory** - Hardware status for both CPU and GPU.
+- **Column 2: Strategy** - Current pool, algorithm, and worker info.
+- **Column 3: Execution** - Live hashrates and session uptime.
+- **Column 4: Telemetry** - Advanced hardware metrics (Temperature, Power, Fan).
+- **Usage**: Simply run `python miner_kanban.py` while your miners are running.

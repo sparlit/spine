@@ -61,7 +61,6 @@ class NiceHashMinerApp:
             return
 
         # NiceHash stratum mapping
-        # GMiner algos: kawpow, autolykos2
         nh_algo_map = {
             "kawpow": "kawpow",
             "autolykos2": "autolykos"
@@ -128,11 +127,12 @@ class NiceHashMinerApp:
         stats_table.add_row("[bold]Algo:[/]", f"[cyan]{self.algo}[/]")
         stats_table.add_row("[bold]Hashrate:[/]", f"[bold cyan]{self.hashrate}[/]")
         stats_table.add_row("[bold]NiceHash Wallet:[/]", f"[yellow]{self.config['wallet'][:10]}...[/]")
+        stats_table.add_row("[bold]Dashboard:[/]", "[yellow]http://localhost:5001[/]")
         stats_table.add_row("[bold]Uptime:[/]", uptime)
 
         layout["stats"].update(Panel(stats_table, title="Statistics"))
         layout["logs"].update(Panel("\n".join(self.logs[-15:]), title="Console"))
-        layout["footer"].update(Panel(Text("Ctrl+C to exit", justify="center")))
+        layout["footer"].update(Panel(Text("Ctrl+C to exit | Web Dashboard active", justify="center")))
 
         return layout
 

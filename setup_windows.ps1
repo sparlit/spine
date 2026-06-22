@@ -56,4 +56,4 @@ Write-Host "IMPORTANT: Windows Defender might flag 'xmrig.exe' or 'xmrig-cuda.dl
 Write-Host "You must add an exclusion for the 'bin' folder in Windows Security settings."
 Write-Host ""
 Write-Host "To start mining with TUI, run: python miner_tui.py"
-Write-Host "To start the Web Dashboard, run: python miner_web.py"
+Write-Host "To start the Web Dashboard, run: python miner_web_unified.py"

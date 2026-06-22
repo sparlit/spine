@@ -30,14 +30,14 @@ RUN wget https://github.com/xmrig/xmrig/releases/download/v6.21.0/xmrig-6.21.0-l
 
 # Copy application files
 COPY miner_tui.py .
-COPY miner_web.py .
+COPY miner_web_unified.py .
 COPY setup_termux.sh .
 COPY GUIDE.md .
 
 # Create a entrypoint script to handle the background processes
-RUN echo "#!/bin/bash\npython3 miner_web.py & \npython3 miner_tui.py\nwait -n\nexit \$?" > entrypoint.sh && chmod +x entrypoint.sh
+RUN echo "#!/bin/bash\npython3 miner_web_unified.py & \npython3 miner_tui.py\nwait -n\nexit \$?" > entrypoint.sh && chmod +x entrypoint.sh
 
 # Expose ports
-EXPOSE 5000 8888
+EXPOSE 5002 8888
 
 ENTRYPOINT ["./entrypoint.sh"]

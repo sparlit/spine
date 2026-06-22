@@ -127,7 +127,7 @@ class GPUMinerApp:
         stats_table.add_row("[bold]Algo:[/]", f"[cyan]{self.algo}[/]")
         stats_table.add_row("[bold]Hashrate:[/]", f"[bold cyan]{self.hashrate}[/]")
         stats_table.add_row("[bold]Coin:[/]", f"[yellow]{self.config['coin']}[/]")
-        stats_table.add_row("[bold]Dashboard:[/]", "[yellow]http://localhost:5001[/]")
+        stats_table.add_row("[bold]Dashboard:[/]", "[yellow]http://localhost:5002[/]")
         stats_table.add_row("[bold]Uptime:[/]", uptime)
 
         layout["stats"].update(Panel(stats_table, title="Statistics"))

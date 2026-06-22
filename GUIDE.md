@@ -55,8 +55,8 @@ This guide will help you set up and run your Bitcoin miner on Windows 11 and And
 
 ## 7. GPU Web Dashboard
 The specialized GPU dashboard provides real-time hardware metrics.
-1. Run `python miner_web_gpu.py` in a separate terminal.
-2. Access it at `http://localhost:5001`.
+1. Run `python miner_web_unified.py` in a separate terminal.
+2. Access it at `http://localhost:5002`.
 3. It displays GPU Temperature, Power consumption, and Fan speed alongside hashrates.
 
 ## 8. Native Kanban Dashboard

@@ -144,7 +144,7 @@ class MinerApp:
         stats_table.add_row("[bold]Status:[/]", "[green]ACTIVE[/]" if self.running else "[red]INACTIVE[/]")
         stats_table.add_row("[bold]GPU Mining:[/]", "[cyan]ENABLED[/]" if self.config.get("cuda") else "[grey]DISABLED[/]")
         stats_table.add_row("[bold]Hashrate:[/]", f"[bold cyan]{self.hashrate}[/]")
-        stats_table.add_row("[bold]Dashboard:[/]", "[yellow]http://localhost:5000[/]")
+        stats_table.add_row("[bold]Dashboard:[/]", "[yellow]http://localhost:5002[/]")
         stats_table.add_row("[bold]Uptime:[/]", uptime)
 
         layout["stats"].update(Panel(stats_table, title="Statistics"))

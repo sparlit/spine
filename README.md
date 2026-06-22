@@ -16,8 +16,8 @@ A professional Text User Interface (TUI) Bitcoin miner for Windows 11 and Androi
 
 ## GPU Web Dashboard
 You can monitor your GPU mining progress from any device on your local network.
-1. Start the GPU web server: `python miner_web_gpu.py`
-2. Open your browser and go to: `http://[LAPTOP-IP-ADDRESS]:5001`
+1. Start the GPU web server: `python miner_web_unified.py`
+2. Open your browser and go to: `http://[LAPTOP-IP-ADDRESS]:5002`
 
 ## Native Kanban Dashboard (TUI)
 For a professional, high-density overview of your entire mining operation:

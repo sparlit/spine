@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import requests
+import subprocess
 from datetime import datetime
 from rich.console import Console
 from rich.layout import Layout
@@ -21,8 +22,24 @@ class KanbanDashboard:
         self.data = {
             "cpu": None,
             "gpu": None,
+            "processes": [],
             "last_update": "Never"
         }
+
+    def check_process(self, name, is_python=False):
+        try:
+            if sys.platform == "win32":
+                cmd = f'tasklist /FI "IMAGENAME eq {name}"'
+                if is_python:
+                    cmd = f'powershell -Command "Get-Process | Where-Object {{ $_.CommandLine -like \'*{{name}}*\' }}"'
+                result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+                return name.lower() in result.stdout.lower()
+            else:
+                cmd = f"pgrep -af {name}" if is_python else f"pgrep -x {name}"
+                result = subprocess.run(cmd, shell=True, capture_output=True)
+                return result.returncode == 0
+        except:
+            return False
 
     def fetch_data(self):
         # Fetch CPU data
@@ -43,6 +60,19 @@ class KanbanDashboard:
             except:
                 continue
 
+        # Fetch Process data
+        self.data["processes"] = [
+            {"name": "xmrig", "type": "engine", "python": False},
+            {"name": "miner", "type": "engine", "python": False},
+            {"name": "miner_tui.py", "type": "brain", "python": True},
+            {"name": "gpu_unmineable.py", "type": "brain", "python": True},
+            {"name": "gpu_nicehash.py", "type": "brain", "python": True},
+            {"name": "miner_kanban.py", "type": "brain", "python": True},
+            {"name": "miner_web_unified.py", "type": "brain", "python": True}
+        ]
+        for p in self.data["processes"]:
+            p["running"] = self.check_process(p["name"], p.get("python", False))
+
         self.data["last_update"] = datetime.now().strftime("%H:%M:%S")
 
     def make_inventory_panel(self):
@@ -61,7 +91,6 @@ class KanbanDashboard:
             devices = self.data["gpu"].get("devices", [])
             for i, dev in enumerate(devices):
                 table.add_row(f"[bold green]GPU {i}:[/] {dev.get('name')}")
-                # GMiner uses mem_total or similar
                 vram = dev.get('mem_total', 0) // 1024 if 'mem_total' in dev else 'N/A'
                 table.add_row(f"  [dim]VRAM: {vram}GB[/]")
         else:
@@ -137,6 +166,16 @@ class KanbanDashboard:
 
         return Panel(table, title="[bold white]4. TELEMETRY[/]", border_style="yellow")
 
+    def make_processes_panel(self):
+        table = Table(show_header=False, box=None, padding=(0,1))
+
+        for p in self.data.get("processes", []):
+            status = "[green]RUNNING[/]" if p["running"] else "[red]STOPPED[/]"
+            icon = "B" if p["type"] == "brain" else "E"
+            table.add_row(f"[{icon}] [bold]{p['name'][:15]}[/]", status)
+
+        return Panel(table, title="[bold white]5. PROCESSES[/]", border_style="bright_magenta")
+
     def generate_layout(self):
         layout = Layout()
         layout.split(
@@ -153,7 +192,8 @@ class KanbanDashboard:
             Layout(self.make_inventory_panel(), name="inventory"),
             Layout(self.make_strategy_panel(), name="strategy"),
             Layout(self.make_execution_panel(), name="execution"),
-            Layout(self.make_telemetry_panel(), name="telemetry")
+            Layout(self.make_telemetry_panel(), name="telemetry"),
+            Layout(self.make_processes_panel(), name="processes")
         )
         layout["body"].update(kanban_layout)
 
